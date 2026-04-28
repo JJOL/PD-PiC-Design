@@ -4,7 +4,7 @@ import matplotlib.gridspec as gridspec
 
 import sax
 
-from simphony.libraries import siepic
+from simphony.libraries import siepic, sipann
 #sipann
 from simphony.classical import ClassicalSim
 
@@ -50,6 +50,8 @@ def ring_factory(wl=1.55, radius=10) -> sax.SDict:
     # Return the composite model.
     return cir(wl=wl)
 
+
+t1 = time.time()
 wl = np.linspace(1.5, 1.6, 1000)
 ring1 = ring_factory(wl=wl, radius=10)
 
