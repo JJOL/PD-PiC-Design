@@ -1,0 +1,4 @@
+#!/bin/bash
+
+source venv/bin/activate
+export KLAYOUT_PYTHONPATH=${VIRTUAL_ENV}/lib/python3.12/site-packages

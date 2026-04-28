@@ -1,0 +1,29 @@
+INSTALLATION commands
+
+--Install klayout .deb
+sudo dpkg -i klayout_0.30.8-1_amd64.deb
+
+--Install QT5 Library Packages
+--https://askubuntu.com/questions/1034313/ubuntu-18-4-libqt5core-so-5-cannot-open-shared-object-file-no-such-file-or-dir
+
+sudp apt update
+sudo apt install libgit2-dev ruby-dev python3-dev qtbase5-dev
+sudo apt install qtbase5-dev qtbase5-dev-tools
+sudo apt --fix-broken install
+sudo apt install python3-pip
+
+--Setup Python Env
+python3 -m venv venv
+source  venv/bin/activate
+pip install -r requirements.txt
+
+--Open Klayout
+KLAYOUT_PYTHONPATH=${VIRTUAL_ENV}/lib/python3.12/site-packages klayout
+
+--Install Klayout packages
+Menu Tools>Manage Packages>Install siepic_tools, siepic_ebeam_pdk
+
+--Open Example
+Menu SiEPIC>Example Layouts>Mach-Ziender Interferometer
+
+- If python package errors appear, in terminal inside python venv, install those packages and restart klayout.
