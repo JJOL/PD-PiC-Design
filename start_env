@@ -1,4 +1,4 @@
 #!/bin/bash
 
 source venv/bin/activate
-export KLAYOUT_PYTHONPATH=${VIRTUAL_ENV}/lib/python3.12/site-packages
+export KLAYOUT_PYTHONPATH=${VIRTUAL_ENV}/lib/python3.12/site-packages:/home/juanjo/Projects/PD-PiC-Design:/home/juanjo/Projects/PD-PiC-Design/PySpice
