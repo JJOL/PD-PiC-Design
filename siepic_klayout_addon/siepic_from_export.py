@@ -166,21 +166,30 @@ def build_sax_netlist(exported_subckt):
 
     return netlist, settings
 
-
-def run_from_klayout(spice_filepath: str, output_plot_path: str):
-
-
-    # FIRST WE HAVE TO RUN PySPICE 
-    # python -m PySpice.Scripts.cir2py --allow-dollar-in-names --output loadable_netlist_path spice_filepath
-
+def rawspice_to_subcircuit(rawspice_filepath: str):
+    # from MySpiceParser import SpiceParser
     from PySpice.Spice.Parser import SpiceParser
     end_of_line_comment = ('//', ';')
-    parser = SpiceParser(path=spice_filepath,
+    parser = SpiceParser(path=rawspice_filepath,
                          end_of_line_comment=end_of_line_comment)
-
     circuit_txt = parser.to_python_code(ground=0)
 
-    exported_subckt = load_exported_subcircuit(circuit_txt, is_file=False)
+    return load_exported_subcircuit(circuit_txt, is_file=False)
+
+
+def run_from_klayout(rawspice_filepath: str, output_plot_path: str):
+    # FIRST WE HAVE TO RUN PySPICE 
+    # python -m PySpice.Scripts.cir2py --allow-dollar-in-names --output loadable_netlist_path rawspice_filepath
+
+    # from PySpice.Spice.Parser import SpiceParser
+    # from MySpiceParser import SpiceParser
+    # end_of_line_comment = ('//', ';')
+    # parser = SpiceParser(path=rawspice_filepath,
+    #                      end_of_line_comment=end_of_line_comment)
+    # circuit_txt = parser.to_python_code(ground=0)
+
+    # exported_subckt = load_exported_subcircuit(circuit_txt, is_file=False)
+    exported_subckt = rawspice_to_subcircuit(rawspice_filepath)
     netlist, settings = build_sax_netlist(exported_subckt)
 
     models = {
@@ -203,11 +212,23 @@ def run_from_klayout(spice_filepath: str, output_plot_path: str):
 
     # set plotting backend to file non interactive environment
     plt.switch_backend('Agg')
+    fig, axs = plt.subplots(2, 1, sharex=True)
+    axs[0].plot(wl, mag)
+    axs[0].set_ylabel("Transmission")
 
-    plt.plot(wl, mag)
-    plt.xlabel("Wavelength (um)")
-    plt.ylabel("Transmission")
-    plt.title("SiEPIC-exported MZI Response")
+    loss = 10*jnp.log10(mag)*5
+    axs[1].plot(wl, loss)
+
+    axs[1].set_ylabel("Transmission (dB)")
+    axs[1].set_xlabel("Wavelength (um)")
+
+    plt.suptitle(f"SiEPIC-exported CKT Response")
+
+
+    # plt.plot(wl, mag)
+    # plt.xlabel("Wavelength (um)")
+    # plt.ylabel("Transmission")
+    # plt.title("SiEPIC-exported MZI Response")
     plt.tight_layout()
     plt.savefig(output_plot_path)
 
@@ -215,7 +236,8 @@ def main():
     parser = argparse.ArgumentParser(description="Run SiEPIC exported Python netlist through SAX")
     parser.add_argument(
         "--exported-netlist",
-        default="mzi_sample1_spice.txt",
+        # default="mzi_sample1_spice.txt",
+        default="/tmp/tmpi_7604vz/EBeam_Example_MZI_main.spi",
         help="Path to file containing exported SubCircuit/X calls",
     )
     parser.add_argument(
@@ -225,7 +247,8 @@ def main():
     )
     args = parser.parse_args()
 
-    exported_subckt = load_exported_subcircuit(args.exported_netlist)
+    # exported_subckt = load_exported_subcircuit(args.exported_netlist)
+    exported_subckt = rawspice_to_subcircuit(args.exported_netlist)
     netlist, settings = build_sax_netlist(exported_subckt)
 
     models = {
