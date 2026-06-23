@@ -4,15 +4,26 @@ Simulate GROOT with PIC Simulation
 - Match GROOT BW capacity
 
 
+* MR resonators Klayout [X]
+    - Being able to design them [X]
+    - Simulate [X]
+    - Radius/Wevelength compute [X]
 
-* MZI <=> calculate WG length = f(target wavelength)
-* MR resonators Klayout
-    - Being able to design them
-    - Simulate
-    - Radius/Wevelength compute
-* Multiple Circuit "Inputs/Outputs" readings
-* Cicuit Ports Time Digital Signals (Input/Outputs through time GTKWave)
-* Package Well Klayout Simphony Simulate
-* Energy Cost Model / BW Model
-* GROOT Design
-* GROOT Evaluation
+TODO TODAY
+1. Multiple Circuit "Inputs/Outputs" readings && Time [O]                           
+2. Cicuit Ports Time Digital Signals (Input/Outputs through time GTKWave) [ ]
+3. WDM with radius based MR [ ]                                                 (2 hours)
+
+4. Energy Cost Model / BW Model && Simple book both arcs WDM evaluation [ ]
+    - Evaluation Workflow                                                       (2 hours)
+5. GROOT Design and Evaluation [ ]
+    - Programatically create design in KLayout                                  (2 hours)
+6. KLayout-2-Simulate
+    - Update Spice to handle missing classes create evaluation plan             (1 hour)
+7. Package Well Klayout Simphony Simulate [ ]                                   (2 hours)
+8. pn-modulated && thermal sensitive MRs [ ]                                    (2 hours) (likely not)
+9. Report [ ]                                                                   (2 hours)
+
+TODO TOMORROW
+1. Presentation [ ]
+
